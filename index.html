@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VJR Associates</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+  <header class="hero-section fade-in">
+  <h1>Welcome to <span class="highlight">VJR Associates</span></h1>
+  <p>Your Partner in Innovation, Technology & Strategy</p>
+  <a href="#services" class="btn">Explore Services</a>
+  <a href="/login" class="btn" style="margin-left:10px;">Login / Sign Up</a>
+  <button onclick="toggleDarkMode()">🌙 Toggle Mode</button>
+  </header>
+  
+
+  <main>
+    <section class="card zoom-in">
+      <h2>Contact Us</h2>
+      <form action="/submit" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required><br>
+        <input type="email" name="email" placeholder="Your Email" required><br>
+        <textarea name="message" placeholder="Your Message" rows="4"></textarea><br>
+        <button type="submit"><i class="fas fa-paper-plane"></i> Send</button>
+      </form>
+    </section>
+  </main>
+<section id="services" class="service-section">
+  <h2 style="text-align:center ;">Our Services</h2>
+  <div class="service-cards">
+    <a href="/web-development" style="text-decoration:none;color:inherit;">
+      <section class="card zoom-in">
+        <h2>Web Development</h2>
+        <p>Modern websites and web apps for your business.</p>
+      </section>
+    </a>
+    <div class="card">
+      <i class="fas fa-lock"></i>
+      <h3>Cybersecurity</h3>
+      <p>Protect your digital assets with expert solutions.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-brain"></i>
+      <h3>AI Integration</h3>
+      <p>Smart automation and AI consulting for growth.</p>
+    </div>
+  </div>
+</section>
+<section id="testimonials" style="text-align: center;">
+  <h2>What Our Clients Say</h2>
+  <div class="testimonial-box">
+    <p>“VJR Associates transformed our website. Highly recommended!”</p>
+    <h4>- Ravi Kumar, CEO, TechWing</h4>
+  </div>
+</section>
+<section class="card" style="margin-top:30px;">
+  <h2>Frequently Asked Questions</h2>
+  <div>
+    <button onclick="toggleFaq('faq1')">What services do you offer?</button>
+    <div id="faq1" style="display:none;">We offer web development, cybersecurity, and AI integration.</div>
+  </div>
+  <div>
+    <button onclick="toggleFaq('faq2')">How can I contact you?</button>
+    <div id="faq2" style="display:none;">Use the contact form above or chat with us directly!</div>
+  </div>
+</section>
+<section class="card" style="text-align:center;">
+  <h2>Our Achievements</h2>
+  <div>
+    <span id="projects" style="font-size:2em;">0</span>+ Projects Completed
+  </div>
+  <div>
+    <span id="clients" style="font-size:2em;">0</span>+ Happy Clients
+  </div>
+</section>
+
+  <footer class="slide-up">
+    <p>© 2025 VJR Associates. All rights reserved.</p>
+  </footer>
+<!-- Add this before </body> -->
+<div id="chat-widget" class="card" style="position:fixed;bottom:20px;right:20px;width:300px;z-index:1000;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h4 style="margin:0;">Chat with us!</h4>
+    <button onclick="closeChat()" style="background:none;border:none;color:#fff;font-size:1.2em;cursor:pointer;">&times;</button>
+  </div>
+  <div id="chat-messages" style="height:120px;overflow-y:auto;background:#2222;padding:8px;color:#fff;margin-bottom:8px;border-radius:6px;"></div>
+  <input type="text" id="chat-input" placeholder="Type a message..." style="width:80%;">
+  <button onclick="sendChat()" style="width:18%;">Send</button>
+</div>
+<script>
+function closeChat() {
+  document.getElementById('chat-widget').style.display = 'none';
+}
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+  if(input.value.trim()) {
+    messages.innerHTML += `<div><b>You:</b> ${input.value}</div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+  }
+}
+function toggleFaq(id) {
+  var x = document.getElementById(id);
+  x.style.display = x.style.display === "none" ? "block" : "none";
+}
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+function animateValue(id, start, end, duration) {
+  let range = end - start;
+  let current = start;
+  let increment = end > start ? 1 : -1;
+  let stepTime = Math.abs(Math.floor(duration / range));
+  let obj = document.getElementById(id);
+  let timer = setInterval(function() {
+    current += increment;
+    obj.textContent = current;
+    if (current == end) clearInterval(timer);
+  }, stepTime);
+}
+window.onload = function() {
+  animateValue("projects", 0, 120, 1200);
+  animateValue("clients", 0, 80, 1200);
+  // Dark mode preference
+  if(localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+}
+</script>
+</body>
+</html>
